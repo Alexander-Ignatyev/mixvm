@@ -6,7 +6,7 @@
 namespace mix {
 
 Instruction MachineFixture::make_instruction(byte cmd, short addr, FieldSpecification f) {
-  instructions.emplace_back(Word::make_as_instruction(cmd, addr, 0, f));
+  instructions.push_back(Word::make_as_instruction(cmd, addr, 0, f));
   return Instruction(instructions.back());
 }
 
