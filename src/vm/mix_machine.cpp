@@ -1126,6 +1126,8 @@ void Machine::transfer_negative_address_to_register(Register *reg, const Instruc
 
 template <typename Register> void Machine::transfer_address_to_register(Register *reg, const Instruction &instruction) {
   const auto value = extract_address(instruction);
+  overflow = false;
+  memset(reg, 0, sizeof(Register));
   reg->set_address(value);
 }
 
