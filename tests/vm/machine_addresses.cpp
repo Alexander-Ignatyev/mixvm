@@ -5,7 +5,7 @@ namespace mix {
 class MachineAddressesTestSuite : public MachineFixture {};
 
 TEST_F(MachineAddressesTestSuite, enta) {
-  auto instruction = make_instruction(cmd_enta, 70);
+  auto instruction = Instruction(Word::make_as_instruction(cmd_enta, 70));
   machine.enta(instruction);
 
   EXPECT_EQ(70, get_reg_a_value());
