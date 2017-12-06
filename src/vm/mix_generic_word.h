@@ -2,6 +2,7 @@
 #define MIX_GENERIC_WORD_H
 
 #include "mix_byte.h"
+#include "mix_sign.h"
 
 #include <ostream>
 
