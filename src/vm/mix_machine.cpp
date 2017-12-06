@@ -998,7 +998,7 @@ void Machine::load_big_register(big_register *reg, const Word &instruction) cons
   memset(reg, 0, sizeof(big_register));
   reg->set_value(memory[address], instruction.get_field_specification());
   FieldSpecification fmt = instruction.get_field_specification();
-  int nbytes = DATA_BYTES_IN_WORD - fmt.high;
+  int nbytes = big_register::DATA_BYTES - fmt.high;
   if (nbytes > 0) {
     reg->right_shift(nbytes);
   }
@@ -1022,7 +1022,7 @@ void Machine::load_index_register_negative(int index, const Word &instruction) {
 
 void Machine::store_big_register(big_register reg, const Word &instruction) {
   FieldSpecification fs = instruction.get_field_specification();
-  int nbytes = DATA_BYTES_IN_WORD - fs.high;
+  int nbytes = big_register::DATA_BYTES - fs.high;
   if (nbytes > 0) {
     reg.left_shift(nbytes);
   }

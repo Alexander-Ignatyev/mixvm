@@ -39,74 +39,6 @@ void Word::set_address(short address) {
   bytes[1] = address - bytes[0] * VALUES_IN_BYTE;
 }
 
-void Word::right_shift(int nbytes) {
-  for (int i = DATA_BYTES_IN_WORD - 1; i - nbytes >= 0; --i) {
-    bytes[i] = bytes[i - nbytes];
-  }
-  for (int i = 0; i < nbytes; ++i) {
-    bytes[i] = 0;
-  }
-}
-
-void Word::left_shift(int nbytes) {
-  for (int i = 0; i + nbytes < DATA_BYTES_IN_WORD; ++i) {
-    bytes[i] = bytes[i + nbytes];
-  }
-
-  for (int i = DATA_BYTES_IN_WORD - 1; i > (DATA_BYTES_IN_WORD - nbytes); --i) {
-    bytes[i] = 0;
-  }
-}
-
-void Word::set_value(const Word &source, FieldSpecification fmt) {
-  if (fmt.low < 0)
-    fmt.low = 0;
-  if (fmt.high > 5)
-    fmt.high = 5;
-
-  if (fmt.low == 0) {
-    // copy_sign
-    sign = source.sign;
-    ++fmt.low; // remove sign
-  }
-
-  for (int i = fmt.low - 1; i < fmt.high; ++i) {
-    bytes[i] = source.bytes[i];
-  }
-}
-
-bool Word::set_value(int val) {
-  sign = mix::get_sign(val);
-  if (val < 0)
-    val *= -1;
-  for (int i = DATA_BYTES_IN_WORD - 1; i >= 0; --i) {
-    bytes[i] = val % VALUES_IN_BYTE;
-    val /= VALUES_IN_BYTE;
-  }
-  return val > 0;
-}
-
-value_type Word::get_value(FieldSpecification fmt) const {
-  bool negative = false;
-  if (fmt.low > 0) {
-    --fmt.low;
-  } else if (sign == Sign::Negative) {
-    negative = true;
-  }
-
-  if (fmt.high > 5)
-    fmt.high = 5;
-  int value = 0;
-  for (int i = fmt.low; i < fmt.high; ++i) {
-    value *= VALUES_IN_BYTE;
-    value += bytes[i];
-  }
-  if (negative) {
-    value *= -1;
-  }
-  return value;
-}
-
 byte Word::get_operation_code() const {
   return bytes[byte_c];
 }
@@ -123,34 +55,10 @@ byte Word::get_specification() const {
   return bytes[byte_i];
 }
 
-Sign Word::get_sign() const {
-  return sign;
-}
-
-void Word::set_sign(Sign value) {
-  sign = value;
-}
-
-void Word::flip_sign() {
-  sign = mix::flip_sign(sign);
-}
-
-void Word::print_word(std::ostream &os) const {
-  os << to_char(sign);
-  for (int i = 0; i < DATA_BYTES_IN_WORD; ++i) {
-    os << ", " << (int)bytes[i];
-  }
-}
-
 void Word::print_instruction(std::ostream &os, const char *command_name) const {
   os << command_name << "\t" << (unsigned)get_address() << "," << (unsigned)bytes[byte_i];
   FieldSpecification fmt = FieldSpecification::decode(bytes[byte_f]);
   os << "(" << (int)fmt.low << ":" << (int)fmt.high << ")";
-}
-
-std::ostream &operator<<(std::ostream &os, const Word &word) {
-  word.print_word(os);
-  return os;
 }
 
 Word make_cmd(byte cmd, short addr, FieldSpecification f) {
