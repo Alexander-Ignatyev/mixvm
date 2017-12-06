@@ -5,13 +5,7 @@
 namespace mix {
 
 short Instruction::get_address() const {
-  short address = 0;
-  address += word.bytes[byte_a1] * VALUES_IN_BYTE;
-  address += word.bytes[byte_a2];
-  if (word.sign == Sign::Negative) {
-    address *= -1;
-  }
-  return address;
+  return word.get_address();
 }
 
 Instruction::Instruction(const Word &word) : word{word} {

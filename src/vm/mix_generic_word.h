@@ -39,11 +39,6 @@ public:
     return value;
   }
 
-  void set_address(short address) {
-    bytes[0] = address / VALUES_IN_BYTE;
-    bytes[1] = address - bytes[0] * VALUES_IN_BYTE;
-  }
-
   // return true if overflowed
   bool set_value(int val) {
     sign = mix::get_sign(val);
@@ -54,6 +49,26 @@ public:
       val /= VALUES_IN_BYTE;
     }
     return val > 0;
+  }
+
+  short get_address() const {
+    static_assert(DATA_BYTES >= 2, "address functions applied only to words with data bytes >= 2");
+
+    short value = bytes[0] * VALUES_IN_BYTE;
+    value += bytes[1];
+    if (sign == Sign::Negative)
+      value *= -1;
+    return value;
+  }
+
+  void set_address(short address) {
+    static_assert(DATA_BYTES >= 2, "address functions applied only to words with data bytes >= 2");
+
+    sign = mix::get_sign(address);
+    if (address < 0)
+      address *= -1;
+    bytes[0] = address / VALUES_IN_BYTE;
+    bytes[1] = address % VALUES_IN_BYTE;
   }
 
   void set_value(const GenericWord<DATA_BYTES> &source, FieldSpecification fmt) {
