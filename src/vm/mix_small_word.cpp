@@ -18,9 +18,4 @@ bool SmallWord::inc() {
   return isOverflowed;
 }
 
-void SmallWord::set_address(short addr) {
-  bytes[0] = addr / VALUES_IN_BYTE;
-  bytes[1] = addr - bytes[0] * VALUES_IN_BYTE;
-}
-
 } // namespace mix

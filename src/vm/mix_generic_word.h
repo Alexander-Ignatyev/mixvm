@@ -39,6 +39,11 @@ public:
     return value;
   }
 
+  void set_address(short address) {
+    bytes[0] = address / VALUES_IN_BYTE;
+    bytes[1] = address - bytes[0] * VALUES_IN_BYTE;
+  }
+
   // return true if overflowed
   bool set_value(int val) {
     sign = mix::get_sign(val);
@@ -106,7 +111,6 @@ public:
     }
   }
 
-protected:
   Sign sign;
   byte bytes[DATA_BYTES];
 };

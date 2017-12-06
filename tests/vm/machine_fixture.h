@@ -5,12 +5,16 @@
 
 #include <vm/mix_machine.h>
 
+#include <list>
+
 namespace mix {
 
 class MachineFixture : public ::testing::Test {
 protected:
   Machine machine;
   bool isOverflowed;
+
+  Instruction make_instruction(byte cmd, short addr = 0, FieldSpecification f = FieldSpecification::DEFAULT);
 
   void set_next_instruction_address(int address);
   int get_next_instruction_address() const;
@@ -29,6 +33,8 @@ protected:
   int get_reg_i_value(int index) const;
 
   void expect_eq(const Word &expected, const Word &actual) const;
+
+  std::list<Word> instructions;
 };
 } // namespace mix
 
