@@ -19,7 +19,7 @@ public:
   byte get_modification() const;
   byte get_specification() const;
 
-  void print_instruction(std::ostream &os, const char *command_name) const;
+  void print(std::ostream &os, const char *command_name) const;
 
 private:
   Word word;

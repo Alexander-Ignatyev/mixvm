@@ -27,10 +27,9 @@ byte Instruction::get_specification() const {
   return word.bytes[byte_i];
 }
 
-void Instruction::print_instruction(std::ostream &os, const char *command_name) const {
-  os << command_name << "\t" << (unsigned)get_address() << "," << (unsigned)word.bytes[byte_i];
-  FieldSpecification fmt = FieldSpecification::decode(word.bytes[byte_f]);
-  os << "(" << (int)fmt.low << ":" << (int)fmt.high << ")";
+void Instruction::print(std::ostream &os, const char *command_name) const {
+  os << command_name << '\t' << static_cast<int>(get_address()) << "," << static_cast<unsigned>(word.bytes[byte_i])
+     << FieldSpecification::decode(word.bytes[byte_f]);
 }
 
 } // namespace mix

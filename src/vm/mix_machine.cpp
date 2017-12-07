@@ -7,7 +7,7 @@
 #include <string.h>
 
 #define LOG_COMMAND_NAME(instruction)                                                                                  \
-  (instruction).print_instruction(std::cout, __FUNCTION__);                                                            \
+  (instruction).print(std::cout, __FUNCTION__);                                                                        \
   std::cout << std::endl;
 
 namespace mix {
