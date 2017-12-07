@@ -5,8 +5,6 @@
 
 #include <vm/mix_machine.h>
 
-#include <list>
-
 namespace mix {
 
 class MachineFixture : public ::testing::Test {
@@ -33,8 +31,6 @@ protected:
   int get_reg_i_value(int index) const;
 
   void expect_eq(const Word &expected, const Word &actual) const;
-
-  std::list<Word> instructions;
 };
 } // namespace mix
 
