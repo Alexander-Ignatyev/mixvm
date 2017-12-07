@@ -22,7 +22,7 @@ public:
   void print_instruction(std::ostream &os, const char *command_name) const;
 
 private:
-  const Word &word;
+  Word word;
 };
 
 } // namespace mix
